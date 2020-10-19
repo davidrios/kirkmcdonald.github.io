@@ -13,6 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 "use strict"
 
+function convertDisabledOptionsToIndex(disabledRecipes) {
+    return disabledRecipes
+        .map(item => {
+            for (var idx in disableRecipesOptions) {
+                if (disableRecipesOptions[idx].name === item) {
+                    return idx
+                }
+            }
+            return null
+        })
+        .filter(item => item != null)
+}
+
 function formatSettings(targets) {
     var settings = ""
     if (currentTab != DEFAULT_TAB) {
@@ -45,7 +58,7 @@ function formatSettings(targets) {
         settings += "fuel=" + preferredFuel.name + "&"
     }
     if (JSON.stringify(disabledRecipes.sort()) != JSON.stringify(defaultDisabledRecipes.sort())) {
-        settings += "dr=" + disabledRecipes.join(",") + "&"
+        settings += "dr=" + convertDisabledOptionsToIndex(disabledRecipes).join(",") + "&"
     }
     if (preferredBelt != DEFAULT_BELT) {
         settings += "belt=" + preferredBelt + "&"

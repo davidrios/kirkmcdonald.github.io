@@ -297,12 +297,7 @@ function setPreferredFuel(name) {
 var defaultDisabledRecipes = []
 var disabledRecipes = []
 
-function renderDisabledRecipes(settings) {
-    var dr = defaultDisabledRecipes
-    if ("dr" in settings) {
-        dr = settings.dr.split(",")
-    }
-    setDisabledRecipes(dr)
+function reloadDisabledRecipesSelect() {
     var select = document.getElementById("disabled_recipes")
 
     select.innerHTML = ''
@@ -315,13 +310,36 @@ function renderDisabledRecipes(settings) {
     }
 
     var drMap = {}
-    for (var item of dr) {
+    for (var item of disabledRecipes) {
         drMap[item] = true
     }
 
     for (var option of select.options) {
         option.selected = !!drMap[option.value]
     }
+}
+
+function renderDisabledRecipes(settings) {
+    var dr = convertDisabledOptionsToIndex(defaultDisabledRecipes)
+    if ("dr" in settings) {
+        dr = settings.dr.split(",")
+    }
+    setDisabledRecipes(
+        dr
+        .map(item => {
+            var idx = parseInt(item)
+            if (isNaN(idx)) {
+                return null
+            }
+            var option = disableRecipesOptions[idx]
+            if (option == null) {
+                return null
+            }
+            return option.name
+        })
+        .filter(item => item != null)
+    )
+    reloadDisabledRecipesSelect()
 }
 
 function setDisabledRecipes(recipes) {

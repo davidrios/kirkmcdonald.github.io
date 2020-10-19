@@ -201,6 +201,11 @@ function changeDisabledRecipes(event) {
     setDisabledRecipes(selected)
     itemUpdate()
 }
+function resetDisabledRecipes(event) {
+    setDisabledRecipes(defaultDisabledRecipes)
+    reloadDisabledRecipesSelect()
+    itemUpdate()
+}
 
 // Triggered when the preferred belt is changed.
 function changeBelt(belt) {
