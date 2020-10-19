@@ -948,7 +948,7 @@ GroupRow.prototype = {
         var power = zero
         for (var i = 0; i < this.factoryRows.length; i++) {
             var p = this.factoryRows[i].power
-            if (p.fuel === "electric") {
+            if (p != null && p.fuel === "electric") {
                 power = power.add(p.power)
             }
         }
