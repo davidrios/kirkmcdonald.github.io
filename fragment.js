@@ -50,7 +50,7 @@ function formatSettings(targets) {
     if (kovarexEnabled != DEFAULT_KOVAREX) {
         settings += "k=off&"
     }
-    if (disabledRecipes.sort() != defaultDisabledRecipes.sort()) {
+    if (JSON.stringify(disabledRecipes.sort()) != JSON.stringify(defaultDisabledRecipes.sort())) {
         settings += "dr=" + disabledRecipes.join(",") + "&"
     }
     if (preferredBelt != DEFAULT_BELT) {
