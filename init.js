@@ -30,6 +30,9 @@ var shortModules
 // Array of arrays of modules, separated by category and sorted.
 var moduleRows
 
+// Array of disabled recipes options objects
+var disableRecipesOptions
+
 // Array of Belt objects, sorted by speed.
 var belts
 
@@ -132,6 +135,27 @@ function loadData(modName, settings) {
 
         var items = graph[0]
         var recipes = graph[1]
+
+        var baseDisableRecipesOptions = ['kovarex-enrichment-process']
+        for (let disableOption of data['disable-recipe-options'] || []) {
+            baseDisableRecipesOptions.push(disableOption)
+        }
+
+        disableRecipesOptions = baseDisableRecipesOptions.map((item) => {
+            var recipe = data.recipes[item]
+
+            return {
+                name: recipe.name,
+                localized_name: (
+                    recipe.localized_name != null &&
+                    recipe.localized_name.en !== '<dummy name>'
+                ) ? recipe.localized_name.en : recipe.name
+            }
+        })
+
+        disableRecipesOptions.sort((a, b) => a.localized_name.localeCompare(b.localized_name))
+
+        defaultDisabledRecipes = data['default-disabled-recipes'] || []
 
         belts = getBelts(data)
         fuel = getFuel(data, items)["chemical"]

@@ -348,6 +348,7 @@ var DEFAULT_KOVAREX = true
 var kovarexEnabled
 
 function renderKovarex(settings) {
+    return
     var k = DEFAULT_KOVAREX
     if ("k" in settings) {
         k = settings.k !== "off"
@@ -358,11 +359,53 @@ function renderKovarex(settings) {
 }
 
 function setKovarex(enabled) {
+    return
     kovarexEnabled = enabled
     if (enabled) {
         solver.removeDisabledRecipes({"kovarex-enrichment-process": true})
     } else {
         solver.addDisabledRecipes({"kovarex-enrichment-process": true})
+    }
+}
+
+// disable recipes
+var defaultDisabledRecipes = []
+var disabledRecipes = []
+
+function renderDisabledRecipes(settings) {
+    var dr = defaultDisabledRecipes
+    if ("dr" in settings) {
+        dr = settings.dr.split(",")
+    }
+    setDisabledRecipes(dr)
+    var select = document.getElementById("disabled_recipes")
+
+    select.innerHTML = ''
+
+    for (var option of disableRecipesOptions) {
+        var optionEl = document.createElement('option')
+        optionEl.value = option.name
+        optionEl.label = option.localized_name
+        select.appendChild(optionEl)
+    }
+
+    var drMap = {}
+    for (var item of dr) {
+        drMap[item] = true
+    }
+
+    for (var option of select.options) {
+        option.selected = !!drMap[option.value]
+    }
+}
+
+function setDisabledRecipes(recipes) {
+    for (var recipe of disabledRecipes) {
+        solver.removeDisabledRecipes({[recipe]: true})
+    }
+    disabledRecipes = recipes
+    for (var recipe of disabledRecipes) {
+        solver.addDisabledRecipes({[recipe]: true})
     }
 }
 
@@ -603,6 +646,7 @@ function renderSettings(settings) {
     renderFuel(settings)
     renderOil(settings)
     renderKovarex(settings)
+    renderDisabledRecipes(settings)
     renderBelt(settings)
     renderPipe(settings)
     renderMiningProd(settings)

@@ -196,6 +196,17 @@ function changeKovarex(event) {
     itemUpdate()
 }
 
+// Triggered when the disabled recipes combo is changed.
+function changeDisabledRecipes(event) {
+    var selected = []
+    var targetOptions = event.target.selectedOptions
+    for (var i = 0; i < targetOptions.length; i++) {
+        selected.push(targetOptions[i].value)
+    }
+    setDisabledRecipes(selected)
+    itemUpdate()
+}
+
 // Triggered when the preferred belt is changed.
 function changeBelt(belt) {
     setPreferredBelt(belt.name)

@@ -13,6 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 "use strict"
 
+var simplexSteps
+
 function pivot(A, row, col) {
     var x = A.index(row, col)
     A.mulRow(row, x.reciprocate())
@@ -49,6 +51,8 @@ function pivotCol(A, col) {
     var best_ratio = null
     var best_row = null
     for (var row = 0; row < A.rows - 1; row++) {
+        simplexSteps += 1
+
         var x = A.index(row, col)
         if (!zero.less(x)) {
             continue
@@ -136,16 +140,24 @@ function eliminateNegativeBases(A) {
 }
 
 function simplex(A) {
+    simplexSteps = 0
     while (true) {
+        simplexSteps += 1
         var min = null
         var minCol = null
         for (var col = 0; col < A.cols - 1; col++) {
+            simplexSteps += 1
             var x = A.index(A.rows - 1, col)
             if (min === null || x.less(min)) {
                 min = x
                 minCol = col
             }
         }
+        if (simplexSteps > 1000000) {
+            console.log('stopping after 1mi steps')
+            throw new Error('simplex-abort')
+        }
+
         if (!min.less(zero)) {
             return
         }

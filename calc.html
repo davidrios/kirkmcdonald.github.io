@@ -237,13 +237,15 @@ limitations under the License.-->
         </tr>
 
         <tr>
-        <td class="setting-label"><label for="kovarex">Enable Kovarex processing:</label></td>
-        <td><input type="checkbox" id="kovarex" onchange="changeKovarex(event)" checked></td>
+        <td class="setting-label">Preferred belt:</td>
+        <td><span id="belt"></span></td>
         </tr>
 
         <tr>
-        <td class="setting-label">Preferred belt:</td>
-        <td><span id="belt"></span></td>
+        <td class="setting-label"><label for="disabled_recipes">Disabled recipes:</label></td>
+        <td>
+            <select id="disabled_recipes" multiple onchange="changeDisabledRecipes(event)"></select>
+        </td>
         </tr>
 
         <tr>

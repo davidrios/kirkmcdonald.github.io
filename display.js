@@ -115,7 +115,20 @@ function itemUpdate() {
         var rate = target.getRate()
         rates[target.itemName] = rate
     }
-    globalTotals = solver.solve(rates, spec.ignore, spec)
+    try {
+        globalTotals = solver.solve(rates, spec.ignore, spec)
+    } catch (ex) {
+        if (ex.message === 'simplex-abort') {
+            globalTotals = {
+                topo: {},
+                totals: {},
+                waste: {},
+                error: 'abort'
+            }
+        } else {
+            throw ex
+        }
+    }
     display()
 }
 
@@ -1102,6 +1115,26 @@ RecipeTable.prototype = {
     },
     displaySolution: function(totals) {
         this.setRecipeHeader()
+
+        var errorRow = document.getElementById('abort-error-row')
+        if (errorRow != null) {
+            errorRow.remove()
+        }
+        if (totals.error === 'abort') {
+            var errorNode = document.createElement('p')
+            errorNode.innerHTML = 'Error: Could not find a solution with the currently disabled recipes. Try enabling some of them.'
+
+            var td = document.createElement('td')
+            td.colSpan = 1000
+            td.appendChild(errorNode)
+
+            var tr = document.createElement('tr')
+            tr.appendChild(td)
+            tr.id = 'abort-error-row'
+
+            this.node.appendChild(tr)
+        }
+
         var sortedTotals
         if (sortOrder == "topo") {
             sortedTotals = totals.topo
