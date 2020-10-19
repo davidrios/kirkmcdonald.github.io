@@ -305,7 +305,7 @@ function reloadDisabledRecipesSelect() {
     for (var option of disableRecipesOptions) {
         var optionEl = document.createElement('option')
         optionEl.value = option.name
-        optionEl.label = option.localized_name
+        optionEl.innerHTML = option.localized_name
         select.appendChild(optionEl)
     }
 
