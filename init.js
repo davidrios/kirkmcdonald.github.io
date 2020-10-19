@@ -136,8 +136,8 @@ function loadData(modName, settings) {
         var items = graph[0]
         var recipes = graph[1]
 
-        var baseDisableRecipesOptions = ['kovarex-enrichment-process']
-        for (let disableOption of data['disable-recipe-options'] || []) {
+        var baseDisableRecipesOptions = []
+        for (let disableOption of data['disable-recipe'].options || []) {
             baseDisableRecipesOptions.push(disableOption)
         }
 
@@ -155,7 +155,7 @@ function loadData(modName, settings) {
 
         disableRecipesOptions.sort((a, b) => a.localized_name.localeCompare(b.localized_name))
 
-        defaultDisabledRecipes = data['default-disabled-recipes'] || []
+        defaultDisabledRecipes = data['disable-recipe'].default || []
 
         belts = getBelts(data)
         fuel = getFuel(data, items)["chemical"]

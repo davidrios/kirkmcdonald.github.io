@@ -293,83 +293,6 @@ function setPreferredFuel(name) {
     }
 }
 
-// oil
-function Oil(recipeName, priorityName) {
-    this.name = recipeName
-    this.priority = priorityName
-}
-
-var OIL_OPTIONS = [
-    new Oil("advanced-oil-processing", "default"),
-    new Oil("basic-oil-processing", "basic"),
-    new Oil("coal-liquefaction", "coal")
-]
-
-var DEFAULT_OIL = "default"
-
-var OIL_EXCLUSION = {
-    "default": {},
-    "basic": {"advanced-oil-processing": true},
-    "coal": {"advanced-oil-processing": true, "basic-oil-processing": true}
-}
-
-var oilGroup = DEFAULT_OIL
-
-function renderOil(settings) {
-    var oil = DEFAULT_OIL
-    // Named "p" for historical reasons.
-    if ("p" in settings) {
-        oil = settings.p
-    }
-    setOilRecipe(oil)
-    var oldNode = document.getElementById("oil")
-    var cell = oldNode.parentNode
-    var node = document.createElement("span")
-    node.id = "oil"
-    let dropdown = makeDropdown(d3.select(node))
-    let inputs = dropdown.selectAll("div").data(OIL_OPTIONS).join("div")
-    let labels = addInputs(
-        inputs,
-        "oil_dropdown",
-        d => d.priority === oil,
-        changeOil,
-    )
-    labels.append(d => getImage(solver.recipes[d.name], false, dropdown.node()))
-    cell.replaceChild(node, oldNode)
-}
-
-function setOilRecipe(name) {
-    solver.removeDisabledRecipes(OIL_EXCLUSION[oilGroup])
-    oilGroup = name
-    solver.addDisabledRecipes(OIL_EXCLUSION[oilGroup])
-}
-
-// kovarex
-var DEFAULT_KOVAREX = true
-
-var kovarexEnabled
-
-function renderKovarex(settings) {
-    return
-    var k = DEFAULT_KOVAREX
-    if ("k" in settings) {
-        k = settings.k !== "off"
-    }
-    setKovarex(k)
-    var input = document.getElementById("kovarex")
-    input.checked = k
-}
-
-function setKovarex(enabled) {
-    return
-    kovarexEnabled = enabled
-    if (enabled) {
-        solver.removeDisabledRecipes({"kovarex-enrichment-process": true})
-    } else {
-        solver.addDisabledRecipes({"kovarex-enrichment-process": true})
-    }
-}
-
 // disable recipes
 var defaultDisabledRecipes = []
 var disabledRecipes = []
@@ -646,8 +569,6 @@ function renderSettings(settings) {
     renderMinimumAssembler(settings)
     renderFurnace(settings)
     renderFuel(settings)
-    renderOil(settings)
-    renderKovarex(settings)
     renderDisabledRecipes(settings)
     renderBelt(settings)
     renderPipe(settings)

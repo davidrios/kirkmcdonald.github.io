@@ -44,12 +44,6 @@ function formatSettings(targets) {
     if (preferredFuel.name != DEFAULT_FUEL) {
         settings += "fuel=" + preferredFuel.name + "&"
     }
-    if (oilGroup != DEFAULT_OIL) {
-        settings += "p=" + oilGroup + "&"
-    }
-    if (kovarexEnabled != DEFAULT_KOVAREX) {
-        settings += "k=off&"
-    }
     if (JSON.stringify(disabledRecipes.sort()) != JSON.stringify(defaultDisabledRecipes.sort())) {
         settings += "dr=" + disabledRecipes.join(",") + "&"
     }

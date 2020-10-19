@@ -1,4 +1,13 @@
 {
+    "disable-recipe": {
+        "options": [
+            "basic-oil-processing",
+            "advanced-oil-processing",
+            "coal-liquefaction",
+            "kovarex-enrichment-process"
+        ],
+        "default": []
+    },
     "accumulator": {
         "accumulator": {
             "energy_source": {

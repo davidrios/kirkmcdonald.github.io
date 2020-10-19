@@ -177,22 +177,17 @@ function changeFurnace(furnace) {
     itemUpdate()
 }
 
-// Triggered when the preferred fuel is changed.
-function changeFuel(fuel) {
-    setPreferredFuel(fuel.name)
+// Triggered when the miner is changed.
+function changeMiner(miner) {
+    spec.setMiner(miner.name)
     solver.findSubgraphs(spec)
     itemUpdate()
 }
 
-// Triggered when the preferred oil recipe is changed.
-function changeOil(oil) {
-    setOilRecipe(oil.priority)
-    itemUpdate()
-}
-
-// Triggered when the Kovarex checkbox is toggled.
-function changeKovarex(event) {
-    setKovarex(event.target.checked)
+// Triggered when the preferred fuel is changed.
+function changeFuel(fuel) {
+    setPreferredFuel(fuel.name)
+    solver.findSubgraphs(spec)
     itemUpdate()
 }
 
